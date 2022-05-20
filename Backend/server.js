@@ -32,7 +32,7 @@ app.use('/login', authRouter);
 app.use('/signup', userRouter);
 // This line(line 27) will authenticate every route/request below this line.
 //If you do not want to authenticate your request/route, add your route above this line as in line 23
-app.use(authenticate);
+//app.use(authenticate);
 
 app.use('/users', userRouter);
 app.use('/groups', studentGroupRouter);
@@ -44,6 +44,6 @@ app.use('/templates', templateRoutes);
 app.use('/markingSchemes', markingSchemeRoutes);
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://cool-elf-554701.netlify.app/';
+axios.defaults.baseURL = 'https://rmt-tool.herokuapp.com/';
 axios.defaults.headers.common['authentication'] = localStorage.getItem('authentication');
 
 axios.interceptors.response.use(response => {
