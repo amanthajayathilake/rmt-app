@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://cool-elf-554701.netlify.app/';
 axios.defaults.headers.common['authentication'] = localStorage.getItem('authentication');
 
 axios.interceptors.response.use(response => {
