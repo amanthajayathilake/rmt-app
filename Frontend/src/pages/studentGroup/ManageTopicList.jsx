@@ -84,8 +84,8 @@ export default function ManageTopics() {
                                     <>
                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <TableCell component="th" scope="row" align="left">{group.id}</TableCell>
-                                            <TableCell component="th" scope="row" align="center">{group.researchTopic.topic}</TableCell>
-                                            <TableCell align="center">{group.researchTopic.area}</TableCell>
+                                            <TableCell component="th" scope="row" align="center">{group.researchTopic? group.researchTopic.topic : ""}</TableCell>
+                                            <TableCell align="center">{group.researchTopic? group.researchTopic.area : ""}</TableCell>
                                             <TableCell align="center">
                                                 {
                                                     group.supervisorId && group.coSupervisorId !== "Not Assigned" ? 
