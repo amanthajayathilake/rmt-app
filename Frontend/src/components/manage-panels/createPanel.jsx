@@ -53,6 +53,20 @@ const CreatePanel = (props) => {
     const theme = useTheme();
     const [panelMembers, setPanelMembers] = React.useState([]);
     const [allocatedGroups, setAllocatedGroups] = React.useState([]);
+    const [errors, setErrors] = useState({id: '', init: true});
+
+    const validateFormattedReq = () => {
+        let id = '';
+        let panelMembers = '';
+        let allocatedGroups = '';
+
+        !panel.id && (id = 'Id is required.');
+        !panelMembers && (panelMembers = 'Panel member/s are required.');
+        !allocatedGroups && (allocatedGroups = 'Allocate group/s are required.');
+
+        setErrors({...errors, id, init: false});
+
+    }
 
     useEffect(() =>{
         handleGetStudentGroups();
@@ -78,46 +92,64 @@ const CreatePanel = (props) => {
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        validateFormattedReq();
         const panelObj = {
             id: panel.id,
             panelMembers: panelMembers,
             allocatedGroups: allocatedGroups
         }
-        createPanel(panelObj)
-        .then(res => {
-            console.error(res.data);
-            console.log(panelObj);
-            props.setAddOpen(false);
-            toast.success('Successfully Created!', {
+        if(errors.id === '' && !errors.init) {
+            createPanel(panelObj)
+            .then(res => {
+                console.error(res.data);
+                console.log(panelObj);
+                props.setAddOpen(false);
+                toast.success('Successfully Created!', {
+                    position: "top-right",
+                    style: {
+                    border: '1px solid #713200',
+                    padding: '16px',
+                    color: 'white',
+                    background: '#4BB543'
+                    },
+                    iconTheme: {
+                    primary: 'green',
+                    secondary: '#FFFAEE',
+                    },
+                });
+                window.location.reload('/panels');
+            }).catch((e) => {
+                //console.log(e);
+                toast.error('Error!', {
+                    position: "top-right",
+                    style: {
+                    padding: '16px',
+                    color: 'white',
+                    background: '#FF0000'
+                    },
+                    iconTheme: {
+                    primary: 'red',
+                    secondary: '#FFFAEE',
+                    },
+                });
+            });
+        } else {
+            toast.info('Please Input correct details.', {
                 position: "top-right",
                 style: {
-                  border: '1px solid #713200',
-                  padding: '16px',
-                  color: 'white',
-                  background: '#4BB543'
+                border: '1px solid #713200',
+                padding: '16px',
+                color: 'white',
+                background: 'blue'
                 },
                 iconTheme: {
-                  primary: 'green',
-                  secondary: '#FFFAEE',
+                primary: 'blue',
+                secondary: '#FFFAEE',
                 },
             });
-            window.location.reload('/panels');
-        }).catch((e) => {
-            //console.log(e);
-            toast.error('Error!', {
-                position: "top-right",
-                style: {
-                  padding: '16px',
-                  color: 'white',
-                  background: '#FF0000'
-                },
-                iconTheme: {
-                  primary: 'red',
-                  secondary: '#FFFAEE',
-                },
-            });
-        });
+        }
     }
 
     const handleChange = (event) => {
@@ -125,6 +157,7 @@ const CreatePanel = (props) => {
         switch(name) {
             case 'id': {
                 setPanel({...panel, id: value});
+                setErrors({ ...errors, id: '' });
                 break;
             }
             default: {}
@@ -174,6 +207,8 @@ const CreatePanel = (props) => {
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
+                            error={errors.id !== ''}
+                            helperText={errors.id}
                         />
                         <FormControl variant="standard" sx={{  width: '100%' }} style={{marginTop: "20px"}}>
                             <InputLabel id="demo-multiple-chip-label">Panel Members</InputLabel>
