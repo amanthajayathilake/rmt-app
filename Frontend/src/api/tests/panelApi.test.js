@@ -1,5 +1,5 @@
 //This file includes unit testing for panel service
-import { createPanel, deletePanel, fetchAllPanels, fetchPanel, updatePanel } from "./panelApi";
+import { createPanel, deletePanel, fetchAllPanels, fetchPanel, updatePanel } from "../panelApi";
 import axios from 'axios';
 
 jest.mock('axios');

@@ -1,4 +1,4 @@
-import { registerUser, findUsers, deleteUser } from './usersApi';
+import { registerUser, findUsers, deleteUser } from '../usersApi';
 import axios from 'axios';
 
 jest.mock('axios');

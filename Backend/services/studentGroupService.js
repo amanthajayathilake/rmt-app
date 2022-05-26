@@ -3,6 +3,7 @@ import http from "../utils/httpStatusCodes.js";
 import { jsonResponse } from "../utils/serviceUtilities.js";
 import { errorMessage } from "../utils/errorMessages.js";
 
+//STUDENT GROUP FUNCTIONALITY
 //Create new student group
 const registerStudentGroup = (req, res) =>{
     const newStudentGroup = studentGroup(req.body);
@@ -141,10 +142,11 @@ const assignMarks = (req, res) =>{
 const fetchStudentGroup = (req, res) =>{
     const filter = {};
     const {id, studentsId, topicEvaluationPanelId, presentationEvaluationPanelId} = req.query;
-    id && (filter.id = id); 
-    studentsId && (filter.studentsId = studentsId);
-    topicEvaluationPanelId && (filter.topicEvaluationPanelId = topicEvaluationPanelId);
-    presentationEvaluationPanelId && (filter.presentationEvaluationPanelId = presentationEvaluationPanelId);
+        id && (filter.id = id); 
+        studentsId && (filter.studentsId = studentsId);
+        topicEvaluationPanelId && (filter.topicEvaluationPanelId = topicEvaluationPanelId);
+        presentationEvaluationPanelId && (filter.presentationEvaluationPanelId = presentationEvaluationPanelId);
+
     studentGroup.find(filter, (error, groupDetails) =>{
         error ?
             res.status(http.BAD_REQUEST)
@@ -157,7 +159,7 @@ const fetchStudentGroup = (req, res) =>{
     })
 }
 
-
+//RESEARCH TOPIC FUNCTIONALITY
 //Add and accept research topic
 const updateResearchTopicDetails = (req, res) =>{
     const filter = {id: req.params.id || 'inavlidId' };
@@ -167,7 +169,8 @@ const updateResearchTopicDetails = (req, res) =>{
             area: req.body.area,
             supervisorIsAccepted: req.body.supervisorIsAccepted === "ACCEPTED" ? req.body.supervisorIsAccepted : "Not Accepted",
             coSupervisorIsAccepted: req.body.supervisorIsAccepted === "ACCEPTED" ? req.body.coSupervisorIsAccepted : "Not Accepted"
-         }
+         },
+         status:"Topic Registered"
        }
     studentGroup.findOneAndUpdate(filter, getTopicDetails, (error, updatedGroupDetails) =>{
         !updatedGroupDetails ?

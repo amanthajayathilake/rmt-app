@@ -1,6 +1,6 @@
 //This file includes unit testing for chat group service
 import axios from 'axios';
-import { fetchChatGroup, fetchAllChatGroups, createChatGroup, updateChatGroup, deleteChatGroup, sendMessage } from './chatApi';
+import { fetchChatGroup, fetchAllChatGroups, createChatGroup, updateChatGroup, deleteChatGroup, sendMessage } from '../chatApi';
 
 jest.mock('axios');
 
