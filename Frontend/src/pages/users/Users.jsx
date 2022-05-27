@@ -15,6 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import AlertDialog from "../../components/alerts/AlertDialog";
 
 const Users = () => {
   const { SUPERVISOR, STUDENT, PANEL_MEMBER, ADMIN } = roles;
@@ -22,6 +23,7 @@ const Users = () => {
   const [role, setRole] = useState(STUDENT);
   const [user, setUser] = useState({});
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   useEffect(() => {
     handleFindUsers();
@@ -38,9 +40,10 @@ const Users = () => {
   }
 
   const handleDeleteUser = (id) => {
+    setDeleteOpen(false)
     deleteUser(id)
       .then((res) => {
-        if(res.data.isSuccessful) {
+        if (res.data.isSuccessful) {
           handleFindUsers();
           handleToast('User deleted!', 'info');
         } else {
@@ -59,9 +62,14 @@ const Users = () => {
     setEditOpen(true);
   }
 
+  const setDeletingUser = (user) => {
+    setUser(user);
+    setDeleteOpen(true);
+  }
+
   return (
     <>
-    <h1>Users</h1>
+      <h1>Users</h1>
       <FormControl >
         <InputLabel id="role-label">Role</InputLabel>
         <Select
@@ -101,10 +109,18 @@ const Users = () => {
                 <TableCell align="right">{user.phone}</TableCell>
                 <TableCell align="right">
                   <Button onClick={() => setEditingUser(user)}>Edit</Button>
-                  <Button onClick={() => handleDeleteUser(user.id)}>Delete</Button>
+                  <Button onClick={() => setDeletingUser(user)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
+            {deleteOpen &&
+              <AlertDialog
+                onConfirm={() => handleDeleteUser(user.id)}
+                onClose={() => setDeleteOpen(false)}
+                title={'Confirm Delete'}
+                body={'Are you sure, you want to delete this user?'}
+              />
+            }
           </TableBody>
         </Table>
       </TableContainer>

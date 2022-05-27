@@ -29,9 +29,11 @@ const formatBytes = (bytes, decimals = 2) => {
 }
 
 const handleDownloadSubmission = (key) => {
+    handleToast('Downloading...','info');
     getSubmission(key)
         .then((res) => {
             fileDownload(res.data, `${key.split('/')[0]}`)
+            handleToast('Downloaded','success');
         })
 }
 const ListSubmissions = () => {
