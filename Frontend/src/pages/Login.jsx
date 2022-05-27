@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { handleToast } from "../helper/helper";
 import Grid from '@mui/material/Grid';
+import { Typography } from "@mui/material";
 
 
 const Login = () => {
@@ -41,13 +42,14 @@ const Login = () => {
 
     return (
         <>
+        <br/><br/><br/><br/><br/><br/>
             <Grid container my={2}
                 direction="row"
             >
                 <Grid item xs={0} md={4}></Grid>
-                <Grid item sx={{ boxShadow: 1 }} px={3} py={3} xs={12} md={4}>
+                <Grid item sx={{ boxShadow: 1 }} style={{background:'rgba(255, 255, 255, 0.70)', padding:20}} px={3} py={3} xs={12} md={4}>
                     <center>
-                        <h1>Login</h1>
+                        <Typography variant='h5'><b>LOGIN</b></Typography>
                     </center>
                     <TextField
                         autoFocus

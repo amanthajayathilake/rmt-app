@@ -183,7 +183,7 @@ export default function AllocatePanels() {
   return (
     <div>
         <Container maxWidth={"90%"}><br/>
-            <Paper elevation={3} style={{padding:20}}>
+            <Paper elevation={3} style={{padding:20, backgroundColor:'rgba(255,255,255, 0.70)'}}>
                 <Typography variant='h6'>
                   <center><b>PANEL ALLOCATION</b></center>
                 </Typography><br/>

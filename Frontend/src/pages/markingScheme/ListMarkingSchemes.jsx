@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
 import { fetchMarkingSchemes } from '../../api/markingSchemeApi';
 import { handleToast } from '../../helper/helper';
+import { Paper } from '@mui/material';
+import { Container} from '@mui/material';
 
 export default function ListMarkingSchemes() {
     const [markingSchemes, setMarkingSchemes] = useState([]);
@@ -29,6 +31,7 @@ export default function ListMarkingSchemes() {
 
     return (
         <div>
+            <br/>
             {markingSchemes && markingSchemes.map((ms, index)=> (
                 <Accordion>
                     <AccordionSummary
@@ -73,6 +76,7 @@ export default function ListMarkingSchemes() {
                         ))}
                     </AccordionDetails>
                 </Accordion>
+               
             ))}
 
         </div>
