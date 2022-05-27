@@ -69,8 +69,11 @@ const Users = () => {
 
   return (
     <>
-      <h1>Users</h1>
-      <FormControl >
+    <h1 style={{marginLeft:"50px"}}>Users</h1>
+    <hr style={{marginLeft:"50px"}}/>
+    <TableContainer component={Paper} style={{ marginLeft:"7px", marginRight:"7px"}}>
+      <br/>
+      <FormControl style={{ marginLeft:"5px"}} >
         <InputLabel id="role-label">Role</InputLabel>
         <Select
           labelId="role-label"
@@ -84,7 +87,7 @@ const Users = () => {
           <MenuItem value={ADMIN}>Admins</MenuItem>
         </Select>
       </FormControl>
-      <TableContainer component={Paper}>
+      <br />
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
