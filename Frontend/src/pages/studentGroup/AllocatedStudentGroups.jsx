@@ -18,9 +18,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { assignMarks, evaluateStudentGroupByPanel, fetchStudentGroup } from '../../api/studentGroupApi';
 import { fetchPanel } from '../../api/panelApi';
 import { getAuth } from '../../helper/helper';
-import { AssignMarksForm } from './AssignMarksForm';
+import { AssignMarksForm } from '../../components/Form/AssignMarksForm';
 import ID from "nodejs-unique-numeric-id-generator";
-import toast, { Toaster } from 'react-hot-toast';
+import { handleToast } from "../../helper/helper";
 import { TopicFeedbackForm } from './ProvideTopicFeedback';
 
 export default function AllocatedStudentGroups() {
@@ -38,6 +38,7 @@ export default function AllocatedStudentGroups() {
   const [rowsPerPage, setRowsPerPage] = React.useState(2);
   const [topicData, setTopicData] = useState({})
   const [editOpen, setEditOpen] = useState(false);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, evaluation.length - page * rowsPerPage);
 
   let groupData = [...groupDataT, ...groupDataP]
   const [open, setOpen] = React.useState(false);
@@ -47,7 +48,6 @@ export default function AllocatedStudentGroups() {
       fetchPanel(`panelMembers=${id}`)
       .then((res) =>{
         setPanelId(res.data.responseData[0].id);
-        console.log(panelId)
       }).catch((err) =>{
         console.error(err);
       })
@@ -61,7 +61,6 @@ export default function AllocatedStudentGroups() {
     fetchStudentGroup(`topicEvaluationPanelId=${panelId}`)
     .then((res) =>{
       setGroupDataT(res.data.responseData)
-      console.log( res.data.responseData)
     }).catch((err) =>{
       console.error(err);
     })
@@ -71,7 +70,6 @@ export default function AllocatedStudentGroups() {
     fetchStudentGroup(`presentationEvaluationPanelId=${panelId}`)
     .then((res) =>{
       setGroupDataP(res.data.responseData)
-      console.log( res.data.responseData)
     }).catch((err) =>{
       console.error(err);
     })
@@ -89,7 +87,6 @@ export default function AllocatedStudentGroups() {
     .then((res) =>{
       setGroup(res.data.responseData[0])
       setEvaluation(res.data.responseData[0].evaluation)
-      console.log(res.data.responseData[0].evaluation)
     }).catch((err) =>{
       console.err(err);
     })
@@ -104,7 +101,6 @@ export default function AllocatedStudentGroups() {
     fetchStudentGroup(`id=${grpId}`)
     .then((res) =>{
       setTopicEvData(res.data.responseData[0].panelEvaluateFeedbacks);
-      console.log('hi'+res.data.responseData[0].panelEvaluateFeedbacks);
       setGroup(res.data.responseData[0]);
     }).catch((err) =>{
       console.err(err);
@@ -128,34 +124,10 @@ export default function AllocatedStudentGroups() {
     };
     assignMarks(groupId, evaluationObj)
     .then((res) =>{
-      toast.success('Mark Allocation Successful!', {
-        position: "top-right",
-        style: {
-          border: '1px solid #713200',
-          padding: '16px',
-          color: 'white',
-          background: '#4BB543'
-        },
-        iconTheme: {
-          primary: 'green',
-          secondary: '#FFFAEE',
-        },
-      });
-      console.log(res.data)
+      handleToast('Mark Allocation Successful!', 'success');
     }).catch((err) =>{
-      toast.error('Mark Allocation Unsuccessful!', {
-        position: "top-right",
-        style: {
-          padding: '16px',
-          color: 'white',
-          background: '#FF0000'
-        },
-        iconTheme: {
-          primary: 'red',
-          secondary: '#FFFAEE',
-        },
-      });
-        console.error(err);
+      handleToast('Mark Allocation Unsuccessful!', 'error');
+      console.error(err);
     })
     setOpen(false);
   }
@@ -166,34 +138,9 @@ export default function AllocatedStudentGroups() {
     };
     evaluateStudentGroupByPanel(groupId, feedbackObj)
     .then((res) =>{
-      toast.success('Feedback Provided!', {
-        position: "top-right",
-        style: {
-          border: '1px solid #713200',
-          padding: '16px',
-          color: 'white',
-          background: '#4BB543'
-        },
-        iconTheme: {
-          primary: 'green',
-          secondary: '#FFFAEE',
-        },
-      });
-      console.log(res.data)
+      handleToast('Feedback Provided!', 'success');
     }).catch((err) =>{
-      toast.error('Mark Allocation Unsuccessful!', {
-        position: "top-right",
-        style: {
-          padding: '16px',
-          color: 'white',
-          background: '#FF0000'
-        },
-        iconTheme: {
-          primary: 'red',
-          secondary: '#FFFAEE',
-        },
-      });
-        console.error(err);
+      handleToast('Feedback Provide Unsuccessful!', 'error');
     })
     setEditOpen(false);
   }
@@ -203,7 +150,6 @@ export default function AllocatedStudentGroups() {
     fetchStudentGroup(`id=${panel}`)
     .then((res) =>{
       setTopicData(res.data.responseData[0].researchTopic)
-      console.log(res.data.responseData[0].researchTopic)
     }).catch((err) =>{
       console.err(err);
     })
@@ -221,16 +167,12 @@ export default function AllocatedStudentGroups() {
   return (
     <div>
       <br />
-      <Toaster
-            position="top-right"
-            reverseOrder={false}
-        />
       <Container maxWidth={"90%"}>
         <center>
           <Typography variant='h6'>
             <b>ALLOCATED STUDENT GROUPS</b>
           </Typography>
-        </center>
+        </center><br/>
         <Paper elevation={3} style={{padding:20}}>
           {
             groupData.map((row) =>(
@@ -248,7 +190,7 @@ export default function AllocatedStudentGroups() {
                     <>
                      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                       <Grid item xs={12}>
-                        <Typography align='center'><b>TOPIC DETAILS</b></Typography><br/>
+                        <Typography align='center'><b>DETAILS</b></Typography><br/>
                       </Grid>
                       <Grid item xs>
                         <Typography align='center'><b>Topic: </b> {topicData.topic}</Typography>
@@ -261,6 +203,7 @@ export default function AllocatedStudentGroups() {
                         <Grid item xs>
                           <Button variant='contained' onClick={()=>handleClickOpen(row.id)}>EVALUATION DETAILS</Button>
                         </Grid>
+                      <Divider orientation="vertical" flexItem></Divider>
                         <Grid item xs>
                           <Button variant='contained' onClick={()=>handleClickOpenTopicEvDialog(row.id)}>Topic Evaluation Feedback</Button>
                         </Grid>
@@ -285,7 +228,6 @@ export default function AllocatedStudentGroups() {
                       </Grid><br/>
                     </>
                   }
-                 
                 </Paper>
               <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"lg"}>
                 <DialogTitle><b>EVALUATION DETAILS</b></DialogTitle>
@@ -296,7 +238,7 @@ export default function AllocatedStudentGroups() {
                   <Typography><center><b>GROUP ID : {group.id}</b></center></Typography><br/>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                       <Grid item xs={6}>
-                        <Paper evaluation={3} style={{padding:20}}>
+                        <Paper elevation={3} style={{padding:20}}>
                         <Typography><center>
                           <b>MARKS</b>
                         </center></Typography>
@@ -304,9 +246,9 @@ export default function AllocatedStudentGroups() {
                             <Table sx={{ minWidth: 200 }} aria-label="simple table">
                                 <TableHead>
                                 <TableRow>
-                                    <TableCell>ID</TableCell>
-                                    <TableCell >Name</TableCell>
-                                    <TableCell >Marks</TableCell>
+                                    <TableCell><b>ID</b></TableCell>
+                                    <TableCell><b>NAME</b></TableCell>
+                                    <TableCell><b>MARKS</b></TableCell>
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -318,7 +260,10 @@ export default function AllocatedStudentGroups() {
                                                 <TableCell >{row.marks}</TableCell>
                                                 </TableRow>
                                         ))
-                                    }            
+                                    }        
+                                    {emptyRows > 0 && <TableRow style={{ height: 48 * emptyRows }}>
+                                <TableCell colSpan={6} />
+                                </TableRow>}      
                                 </TableBody>
                                 <TableRow>
                                 <TablePagination
@@ -361,7 +306,6 @@ export default function AllocatedStudentGroups() {
                   <DialogContentText>
                     Current Feedback - <b>{group.panelEvaluateFeedbacks}</b>
                   </DialogContentText><br/>
-
                     <Grid item xs={6}>
                         {
                           topicEvData?(
@@ -388,7 +332,6 @@ export default function AllocatedStudentGroups() {
           }
         </Paper>
       </Container>
-      
     </div>
   )
 }

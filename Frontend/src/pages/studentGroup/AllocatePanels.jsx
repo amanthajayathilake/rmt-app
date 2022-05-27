@@ -1,6 +1,12 @@
-import { Button, Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
+import { Button, Container, Grid, Paper, Typography, TablePagination } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { allocateOrDeallocatePanels, fetchAllStudentGroups } from '../../api/studentGroupApi';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton } from '@mui/material';
@@ -11,7 +17,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { red, yellow } from '@mui/material/colors';
 import { fetchAllPanels, addStudentGroups } from '../../api/panelApi';
-import toast, { Toaster } from 'react-hot-toast';
+import { handleToast } from "../../helper/helper";
 
 export default function AllocatePanels() {
     const [groupData, setGroupData] = useState([]);
@@ -20,7 +26,9 @@ export default function AllocatePanels() {
     const [panelData, setPanelData] = useState([]);
     const [panelType, setPanelType] = useState("");
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(2);
+    const [rowsPerPage, setRowsPerPage] = React.useState(4);
+    const [mainPage, setMainPage] = useState(0)
+    const [rowsPerMainPage, setRowsPerMainPage] = useState(10)
 
     useEffect(() =>{
         getGroups()
@@ -31,7 +39,6 @@ export default function AllocatePanels() {
         fetchAllStudentGroups()
         .then((res) =>{
             setGroupData(res.data.responseData)
-            console.log(res.data.responseData)
         }).catch((err) =>{
             console.error(err);
         })
@@ -41,7 +48,6 @@ export default function AllocatePanels() {
         fetchAllPanels()
         .then((res) =>{
             setPanelData(res.data.responseData);
-            console.log(res.data.responseData)
         }).catch((err) =>{
             console.error(err);
         })
@@ -60,33 +66,9 @@ export default function AllocatePanels() {
                 allocateOrDeallocatePanels(groupId, panelObj)
                 .then((res) =>{
                     console.log(res.data)
-                    toast.success('Topic Evaluation Panel Allocation Successful!', {
-                        position: "top-right",
-                        style: {
-                          border: '1px solid #713200',
-                          padding: '16px',
-                          color: 'white',
-                          background: '#4BB543'
-                        },
-                        iconTheme: {
-                          primary: 'green',
-                          secondary: '#FFFAEE',
-                        },
-                    });
+                    handleToast('Topic Evaluation Panel Allocation Successful!', 'success');
                 }).catch((err) =>{
-                    toast.error('Topic Evaluation Panel Allocation Unsuccessful!', {
-                        position: "top-right",
-                        style: {
-                          padding: '16px',
-                          color: 'white',
-                          background: '#FF0000'
-                        },
-                        iconTheme: {
-                          primary: 'red',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.error(err);
+                    handleToast('Topic Evaluation Panel Allocation Unsuccessful!', 'error');
                 })
                 addStudentGroups(id, groupObj)
                 .then((res) =>{
@@ -107,34 +89,9 @@ export default function AllocatePanels() {
                 }
                 allocateOrDeallocatePanels(groupId, panelObj)
                 .then((res) =>{
-                    toast.success('Presentation Evaluation Panel Allocation Successful!', {
-                        position: "top-right",
-                        style: {
-                          border: '1px solid #713200',
-                          padding: '16px',
-                          color: 'white',
-                          background: '#4BB543'
-                        },
-                        iconTheme: {
-                          primary: 'green',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.log(res.data)
+                    handleToast('Presentation Evaluation Panel Allocation Successful!', 'success');
                 }).catch((err) =>{
-                    toast.error('Presentation Evaluation Panel Allocation Unsuccessful!', {
-                        position: "top-right",
-                        style: {
-                          padding: '16px',
-                          color: 'white',
-                          background: '#FF0000'
-                        },
-                        iconTheme: {
-                          primary: 'red',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.error(err);
+                    handleToast('Presentation Evaluation Panel Allocation Unsuccessful!', 'error');
                 })
                 addStudentGroups(id, groupObj)
                 .then((res) =>{
@@ -155,34 +112,9 @@ export default function AllocatePanels() {
                 }
                 allocateOrDeallocatePanels(groupId, panelObj)
                 .then((res) =>{
-                    toast.success('Topic Evaluation Panel De-Allocation Successful!', {
-                        position: "top-right",
-                        style: {
-                          border: '1px solid #713200',
-                          padding: '16px',
-                          color: 'white',
-                          background: '#4BB543'
-                        },
-                        iconTheme: {
-                          primary: 'green',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.log(res.data)
+                    handleToast('Topic Evaluation Panel De-Allocation Successful!', 'success');
                 }).catch((err) =>{
-                    toast.error('Topic Evaluation Panel De-Allocation Unsuccessful!', {
-                        position: "top-right",
-                        style: {
-                          padding: '16px',
-                          color: 'white',
-                          background: '#FF0000'
-                        },
-                        iconTheme: {
-                          primary: 'red',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.error(err);
+                    handleToast('Topic Evaluation Panel De-Allocation Unsuccessful!', 'error');
                 })
                 addStudentGroups(groupId, groupObj)
                 .then((res) =>{
@@ -203,34 +135,9 @@ export default function AllocatePanels() {
                 }
                 allocateOrDeallocatePanels(groupId, panelObj)
                 .then((res) =>{
-                    toast.success('Topic Evaluation Panel De-allocation Successful!', {
-                        position: "top-right",
-                        style: {
-                          border: '1px solid #713200',
-                          padding: '16px',
-                          color: 'white',
-                          background: '#4BB543'
-                        },
-                        iconTheme: {
-                          primary: 'green',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.log(res.data)
+                    handleToast('Presentation Evaluation Panel De-allocation Successful!', 'success');
                 }).catch((err) =>{
-                    toast.error('Presentation Evaluation Panel De-Allocation Unsuccessful!', {
-                        position: "top-right",
-                        style: {
-                          padding: '16px',
-                          color: 'white',
-                          background: '#FF0000'
-                        },
-                        iconTheme: {
-                          primary: 'red',
-                          secondary: '#FFFAEE',
-                        },
-                    });
-                    console.error(err);
+                    handleToast('Presentation Evaluation Panel De-Allocation Unsuccessful!', 'error');
                 })
                 addStudentGroups(groupId, groupObj)
                 .then((res) =>{
@@ -264,12 +171,17 @@ export default function AllocatePanels() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const handleChangeMainPage = (event, newPage) => {
+        setMainPage(newPage);
+    };
+    
+    const handleChangeRowsPerMainPage = (event) => {
+        setRowsPerMainPage(parseInt(event.target.value, 10));
+        setMainPage(0);
+    };
   return (
     <div>
-        <Toaster
-            position="top-right"
-            reverseOrder={false}
-        />
         <Container maxWidth={"90%"}><br/>
             <Paper elevation={3} style={{padding:20}}>
                 <Typography variant='h6'>
@@ -283,15 +195,15 @@ export default function AllocatePanels() {
                         <Table sx={{minWidth:200}} aria-lable="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell><b>Group ID</b></TableCell>
-                                    <TableCell><b>Status</b></TableCell>
-                                    <TableCell><b>TE Panel</b></TableCell>
-                                    <TableCell><b>PE Panel</b></TableCell>
+                                    <TableCell><b>GROUP ID</b></TableCell>
+                                    <TableCell><b>STATUS</b></TableCell>
+                                    <TableCell><b>TE PANEL</b></TableCell>
+                                    <TableCell><b>PE PANEL</b></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
-                                    groupData.map((row) =>(
+                                    groupData.slice(mainPage * rowsPerMainPage, mainPage * rowsPerMainPage + rowsPerMainPage).map((row) =>(
                                         <TableRow>
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.status}</TableCell>
@@ -335,7 +247,7 @@ export default function AllocatePanels() {
                                                     </Grid>
                                                 </Grid>
                                             </TableCell>
-                                            <Dialog open={open} onClose={handleClose}>
+                                            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"lg"}>
                                                 {
                                                     panelType !== "DELETE-TEPanel" && panelType !== "DELETE-PEPanel" ?
                                                     <>
@@ -352,46 +264,46 @@ export default function AllocatePanels() {
                                                         <center><b>PANELS</b></center>
                                                         </Typography><br/>
                                                         <Paper elevation={3} style={{padding:20}}>
-                                                        <TableContainer component={Paper}>
-                                                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                                                <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell>Panel ID</TableCell>
-                                                                    <TableCell >No of Members</TableCell>
-                                                                    <TableCell >No of Groups</TableCell>
-                                                                    <TableCell >Options</TableCell>
-                                                                </TableRow>
-                                                                </TableHead>
-                                                                <TableBody>
-                                                                    {
-                                                                    panelData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) =>(
-                                                                            <TableRow>
-                                                                                <TableCell >{row.id}</TableCell>
-                                                                                <TableCell >{row.panelMembers.length}</TableCell>
-                                                                                <TableCell >{row.allocatedGroups.length}</TableCell>
-                                                                                <TableCell >
-                                                                                    <Button variant="contained" onClick={()=> addPanel(row.id, panelType)}>Select</Button>
-                                                                                </TableCell>
-                                                                            </TableRow>
-                                                                        ))
-                                                                    }
-                                                                </TableBody>
-                                                                <TableRow>
-                                                                <TablePagination
-                                                                    rowsPerPageOptions={[2, 3, 5]}
-                                                                    count={panelData.length}
-                                                                    page={page}
-                                                                    onPageChange={handleChangePage}
-                                                                    rowsPerPage={rowsPerPage}
-                                                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                                                />
-                                                                </TableRow>
-                                                            </Table>
-                                                        </TableContainer>
+                                                            <TableContainer component={Paper}>
+                                                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                                                    <TableHead>
+                                                                    <TableRow>
+                                                                        <TableCell><b>PANEL ID</b></TableCell>
+                                                                        <TableCell ><b>NO OF MEMBERS</b></TableCell>
+                                                                        <TableCell ><b>NO OF GROUPS</b></TableCell>
+                                                                        <TableCell ><b>OPTIONS</b></TableCell>
+                                                                    </TableRow>
+                                                                    </TableHead>
+                                                                    <TableBody>
+                                                                        {
+                                                                        panelData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) =>(
+                                                                                <TableRow>
+                                                                                    <TableCell >{row.id}</TableCell>
+                                                                                    <TableCell >{row.panelMembers.length}</TableCell>
+                                                                                    <TableCell >{row.allocatedGroups.length}</TableCell>
+                                                                                    <TableCell >
+                                                                                        <Button variant="contained" onClick={()=> addPanel(row.id, panelType)}>Select</Button>
+                                                                                    </TableCell>
+                                                                                </TableRow>
+                                                                            ))
+                                                                        }
+                                                                    </TableBody>
+                                                                    <TableRow>
+                                                                    <TablePagination
+                                                                        rowsPerPageOptions={[4, 10, 15]}
+                                                                        count={panelData.length}
+                                                                        page={page}
+                                                                        onPageChange={handleChangePage}
+                                                                        rowsPerPage={rowsPerPage}
+                                                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                                                    />
+                                                                    </TableRow>
+                                                                </Table>
+                                                            </TableContainer>
                                                         </Paper>
                                                         </DialogContent>
                                                         <DialogActions>
-                                                        <Button onClick={handleClose}>CLOSE</Button>
+                                                            <Button onClick={handleClose}>CLOSE</Button>
                                                         </DialogActions>
                                                     </>:
                                                     panelType === "DELETE-TEPanel" ?
@@ -438,6 +350,16 @@ export default function AllocatePanels() {
                                     ))
                                 }
                             </TableBody>
+                            <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 15, 20]}
+                                count={groupData.length}
+                                page={mainPage}
+                                onPageChange={handleChangeMainPage}
+                                rowsPerPage={rowsPerMainPage}
+                                onRowsPerPageChange={handleChangeRowsPerMainPage}
+                            />
+                            </TableRow>
                         </Table>
                     </TableContainer>
                 </Paper>
