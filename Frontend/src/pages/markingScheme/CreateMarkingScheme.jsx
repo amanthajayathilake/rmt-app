@@ -13,10 +13,12 @@ const CreateMarkingScheme = () => {
     const [mAllocations, setMallocations] = useState([{ allocation: '', mark: '' }]);
 
     const handleSubmit = () => {
+        handleToast('Creating marking-cheme!')
         markigScheme.markingAllocations = mAllocations;
         createMarkingScheme(markigScheme)
             .then(res => {
-                res.data && !res.data.isSuccessful && handleToast()
+                res.data && !res.data.isSuccessful && handleToast();
+                window.location.reload(true);
             })
             .catch(() => handleToast())
     }

@@ -14,12 +14,13 @@ const EditTemplate = (props) =>{
     const [checked, setChecked] = useState(!props.template.published)
 
     const handleEditTemplate = () => {
+        props.setEditOpen(false)
         editTemplates(template._id, template)
             .then((res) => {
-                res.data.isSuccessful ? 
-                    props.handleFetchTemplates() :
-                    props.handleToast()
-                props.setEditOpen(false)
+                if (res.data.isSuccessful) {
+                    props.handleFetchTemplates();
+                    handleToast('Template updated!');
+                }
             })
             .catch(() => handleToast());
     }

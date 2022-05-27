@@ -2,8 +2,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Switch from '@mui/material/Switch';
+import { handleToast } from "../../helper/helper";
 import { createTemplate } from '../../api/templateApi';
-import Uploader from '../../components/cards/Uploader';
 import { createSubmission } from '../../api/submissionsApi';
 
 
@@ -18,6 +18,7 @@ const CreateTemplates = () => {
         }
 
     const handleUpload = async () => {
+        handleToast('Uploading...', 'info');
         const formData = new FormData();
         formData.append("file", file);
         createSubmission(`folder=${template.folder}&type=default`, formData)
@@ -31,7 +32,8 @@ const CreateTemplates = () => {
     const handleCreate = () => {
         createTemplate(template)
             .then(res => {
-                console.log(res);
+                handleToast('Uploaded!', 'success');
+                window.location.reload(true)
             });
     }
 

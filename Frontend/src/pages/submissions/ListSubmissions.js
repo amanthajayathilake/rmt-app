@@ -29,9 +29,11 @@ const formatBytes = (bytes, decimals = 2) => {
 }
 
 const handleDownloadSubmission = (key) => {
+    handleToast('Downloading...','info');
     getSubmission(key)
         .then((res) => {
             fileDownload(res.data, `${key.split('/')[0]}`)
+            handleToast('Downloaded','success');
         })
 }
 const ListSubmissions = () => {
@@ -72,6 +74,8 @@ const ListSubmissions = () => {
           <MenuItem value={'Topics'}>Topics</MenuItem>
         </Select>
       </FormControl>
+      <br />
+      <br />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

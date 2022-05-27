@@ -12,14 +12,13 @@ const EditUser = (props) =>{
     const [user, setUser] = useState(props.user);
 
     const handleEditUser = () => {
+        props.setEditOpen(false)
         updateUser(user.id, user)
             .then((res) => {
                 if (res.data.isSuccessful) {
                     handleToast('User updated', 'info')
                     props.handleFindUsers() 
-                } else {
-                    props.setEditOpen(false)
-                }  
+                }
             })
             .catch(() => handleToast());
     }

@@ -14,37 +14,47 @@ import { registerUser } from '../../api/usersApi';
 import { handleToast } from "../../helper/helper";
 
 const RegisterUser = () => {
-    const [user, setUser] = useState({role: 'Student'});
-    const [errors, setErrors] = useState({
+    const [user, setUser] = useState({
+        role: 'Student',
         id: '',
         name: '',
         email: '',
         password: '',
-        phone: '',
-        init: true
+        phone: ''
+    });
+
+    const [errors, setErrors] = useState({
+        id: false,
+        name: false,
+        email: false,
+        password: false,
+        phone: false
     });
 
     const validateUser = () => {
-        let id = '';
-        let name = '';
-        let email = '';
-        let password = '';
-        let phone = '';
+        const inValidations = {
+            id: false,
+            name: false,
+            email: false,
+            password: false,
+            phone: false
+        }
+        
+        if (!user.id) inValidations.id = true;
+        if (!user.name) inValidations.name = true;
+        if (!user.email) inValidations.email = true;
+        if (!user.password) inValidations.password = true;
+        if (user.phone && user.phone.length > 0 && user.phone.length != 10) inValidations.phone = true;
 
-        !user.id && (id = 'ID cannot be empty.');
-        !user.name && (name = 'Name cannot be empty.');
-        !user.email && (email = 'Email cannot be empty.');
-        !user.password && (password = 'Password cannot be empty.');
-        user.phone && user.phone.length > 0 && user.phone.length != 10 && (phone = 'Phone number must contain 10 digits.');
-
-        setErrors({...errors, id, name, email, password, phone, init: false});
-
+        setErrors(inValidations);
+        if (inValidations.id || inValidations.name || inValidations.email || inValidations.password || inValidations.phone) return false;
+        return true;
     }
 
     const handleRegister = (e) => {
         e.preventDefault();
-        validateUser();
-        if(errors.id === '' && errors.name === '' && errors.email === '' && errors.password === '' && errors.phone === '' && !errors.init) {
+        const isValid = validateUser();
+        if(isValid) {
             registerUser(user)
             .then(res => {
                 if(res && res.data && res.data.isSuccessful) {
@@ -56,9 +66,8 @@ const RegisterUser = () => {
             })
             .catch(() => handleToast());
         } else {
-            handleToast('Please input correct values in the form!', 'error');
+            handleToast('Invalid inputs!', 'error');
         }
-
     }
 
     const handleChange = (event) => {
@@ -66,29 +75,29 @@ const RegisterUser = () => {
         switch (name) {
             case 'id': {
                 setUser({ ...user, id: value });
-                setErrors({ ...errors, id: '' })
+                setErrors({ ...errors, id: false })
                 break;
             }
             case 'name': {
                 setUser({ ...user, name: value });
-                setErrors({ ...errors, name: '' })
+                setErrors({ ...errors, name: false })
                 break;
             }
             case 'email': {
                 setUser({ ...user, email: value });
-                setErrors({ ...errors, email: '' })
+                setErrors({ ...errors, email: false })
                 break;
             }
             case 'phone': {
-                setErrors({ ...errors, phone: '' });
-                value.length > 0 && !(/^\d+$/.test(value)) && setErrors({...errors, phone: 'Phone number cannot contain letters.'});
-                value.length > 10 && setErrors({...errors, phone: 'Phone number should contain only 10 digits.'});
+                setErrors({ ...errors, phone: false });
+                value.length > 0 && !(/^\d+$/.test(value)) && setErrors({...errors, phone: true});
+                value.length > 10 && setErrors({...errors, phone: true});
                 setUser({ ...user, phone: value });
                 break;
             }
             case 'password': {
-                setErrors({ ...errors, password: '' })
                 setUser({ ...user, password: value });
+                setErrors({ ...errors, password: false })
                 break;
             }
             case 'interestArea': {
@@ -112,8 +121,8 @@ const RegisterUser = () => {
                 <Grid item sx={{ boxShadow: 1 }} px={3} py={3} xs={12} md={6}>
                     <center><h1>Sign Up</h1></center>
                     <TextField
-                        error={errors.id !== ''}
-                        helperText={errors.id}
+                        error={errors.id}
+                        helperText={errors.id && 'Invalid id!'}
                         autoFocus
                         margin="dense"
                         name="id"
@@ -123,8 +132,8 @@ const RegisterUser = () => {
                         onChange={handleChange}
                     />
                     <TextField
-                        error={errors.name !== ''}
-                        helperText={errors.name}
+                        error={errors.name}
+                        helperText={errors.name && 'Invalid name!'}
                         autoFocus
                         name="name"
                         label="Enter your name"
@@ -133,8 +142,8 @@ const RegisterUser = () => {
                         onChange={handleChange}
                     />
                     <TextField
-                        error={errors.email !== ''}
-                        helperText={errors.email}
+                        error={errors.email}
+                        helperText={errors.email && 'Invalid email!'}
                         autoFocus
                         margin="dense"
                         name="email"
@@ -145,8 +154,8 @@ const RegisterUser = () => {
                         onChange={handleChange}
                     />
                     <TextField
-                        error={errors.phone !== ''}
-                        helperText={errors.phone}
+                        error={errors.phone}
+                        helperText={errors.phone && 'Invalid phone number!'}
                         autoFocus
                         margin="dense"
                         name="phone"
@@ -156,8 +165,8 @@ const RegisterUser = () => {
                         onChange={handleChange}
                     />
                     <TextField
-                        error={errors.password !== ''}
-                        helperText={errors.password}
+                        error={errors.password}
+                        helperText={errors.password && 'Inavlid password!'}
                         autoFocus
                         margin="dense"
                         name="password"

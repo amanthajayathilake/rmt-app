@@ -12,11 +12,13 @@ import EditTemplate from "./EditTemplate";
 import { getSubmission } from "../../api/submissionsApi";
 import fileDownload from 'js-file-download'
 import { roles } from "../../Util/utils";
+import AlertDialog from "../../components/alerts/AlertDialog";
 
 const ListTemplates = () => {
     const [templates, setTemplates] = useState([]);
     const [template, setTemplate] = useState({});
     const [editOpen, setEditOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
     const [role, setRole] = useState('');
     const { ADMIN } = roles;
     useEffect(() => {
@@ -25,7 +27,12 @@ const ListTemplates = () => {
         setRole(auth.role);
     }, []);
 
+    const OnClickdeleteClose = () => {
+        setDeleteOpen(false);
+    }
+
     const handleFetchTemplates = () => {
+        setDeleteOpen(false)
         fetchTemplates()
             .then(res => {
                 res.data.isSuccessful ?
@@ -38,9 +45,10 @@ const ListTemplates = () => {
     const handleDeleteTemplate = (id) => {
         deleteTemplate(id)
             .then((res) => {
-                res.data.isSuccessful ?
-                    handleFetchTemplates() :
-                    handleToast()
+                if(res.data.isSuccessful) {
+                    handleFetchTemplates();
+                    handleToast('Template deleted!');
+                }
             })
             .catch(() => handleToast())
     }
@@ -51,10 +59,13 @@ const ListTemplates = () => {
     }
 
     const handleDownloadTemplate = (temp) => {
+        handleToast('Template downloading...', 'info');
         getSubmission(temp.key)
             .then((res) => {
                 fileDownload(res.data, `${temp.name}.pdf`)
+                handleToast('Downloaded', 'success');
             })
+            .catch(() => handleToast());
     }
 
     return (
@@ -94,13 +105,21 @@ const ListTemplates = () => {
                                         <TableCell align="right">{temp.published ? 'Published' : 'Hidden'}</TableCell>
                                         <TableCell align="right">
                                             <Button onClick={() => setEditingTemplate(temp)}>Edit</Button>
-                                            <Button onClick={() => handleDeleteTemplate(temp._id)}>Delete</Button>
+                                            <Button onClick={() => setDeleteOpen(true)}>Delete</Button>
                                             <Button onClick={() => handleDownloadTemplate(temp)}>Download</Button>
                                         </TableCell>
                                     </> :
                                     <TableCell align="right">
                                         <Button onClick={() => handleDownloadTemplate(temp)}>Download</Button>
                                     </TableCell>
+                                }
+                                {deleteOpen &&
+                                    <AlertDialog
+                                        onConfirm={() => handleDeleteTemplate(temp._id)}
+                                        onClose={() => setDeleteOpen(false)}
+                                        title={'Confirm Delete'}
+                                        body={'Are you sure, you want to delete this template?'}
+                                    />
                                 }
                             </TableRow>
                         ))}
