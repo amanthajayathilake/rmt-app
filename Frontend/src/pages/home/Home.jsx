@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import Submissions from "../submissions/Submissions"
 import ListTemplates from "../templates/ListTemplates";
 import ListMarkingSchemes from "../markingScheme/ListMarkingSchemes";
@@ -14,17 +14,27 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{ boxShadow: 1 }} px={1} py={1}>
-                <h1>Submissions</h1>
+        <Container maxWidth={"98%"}>
+            <br/>
+            <Paper elevation={3} style={{padding:20, background:'rgba(255, 255, 255, 0.50)'}}>
+                <center>
+                <Typography variant='h5'><b>SUBMISSIONS</b></Typography>
+                </center>
                     <Submissions />
-            </Box>
-            <Box sx={{ boxShadow: 1 }} mt={1} px={1} py={1}>
+                
+            </Paper>
+            <br/>
+            <Paper elevation={3} style={{padding:20, background:'rgba(255, 255, 255, 0.50)'}}>
                     <ListTemplates />
-            </Box>
-            <Box sx={{ boxShadow: 1 }} mt={1} px={1} py={1}>
-                <h1>Marking Schemes</h1>
+            </Paper>
+            <br/>
+            <Paper elevation={3} style={{padding:20, background:'rgba(255, 255, 255, 0.50)'}}>
+                <center>
+                    <Typography variant='h5'><b>MARKING SCHEMES</b></Typography>
+                </center>
                     <ListMarkingSchemes />
-            </Box>
+            </Paper>
+            </Container>
         </>
     )
 }
