@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { deleteTemplate, fetchTemplates } from "../../api/templateApi";
 import EditTemplate from "./EditTemplate";
 import { getSubmission } from "../../api/submissionsApi";
@@ -59,20 +59,23 @@ const ListTemplates = () => {
 
     return (
         <>
-            <h1>Templates</h1>
-            <TableContainer >
+            <center>
+                <Typography variant='h5'><b>TEMPLATES</b></Typography>
+            </center>
+            <br/>
+            <TableContainer component={Paper} >
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Template</TableCell>
-                            <TableCell align="right">Description</TableCell>
+                            <TableCell><b>TEMPLATE</b></TableCell>
+                            <TableCell align="right"><b>DESCRIPTION</b></TableCell>
                             {role && role === ADMIN &&
                                 <>
-                                    <TableCell align="right">Upload Folder</TableCell>
-                                    <TableCell align="right">Visibilty</TableCell>
+                                    <TableCell align="right"><b>UPLOAD FOLDER</b></TableCell>
+                                    <TableCell align="right"><b>VISIBILITY</b></TableCell>
                                 </>
                             }
-                            <TableCell align="right">Options</TableCell>
+                            <TableCell align="right"><b>OPTIONS</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
