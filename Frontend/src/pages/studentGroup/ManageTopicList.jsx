@@ -80,7 +80,7 @@ export default function ManageTopics() {
                         </TableHead>
                         <TableBody>
                             {groups.map((group, index) => (
-                                group.supervisorId === id && (
+                                group.supervisorId === id || group.coSupervisorId === id &&(
                                     <>
                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <TableCell component="th" scope="row" align="left">{group.id}</TableCell>
