@@ -21,6 +21,7 @@ const EditSubmissionType = (props) =>{
                 props.handleFetchSubmissionTypes() :
                 handleToast()
                 props.setEditOpen(false)
+                handleToast('Submission type updated!', 'success')
             })
             .catch(() => handleToast());
     }
