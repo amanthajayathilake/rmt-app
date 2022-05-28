@@ -202,8 +202,8 @@ const EditPanel = (props) => {
                                         value={member.id}
                                         style={getStyles(member.id, panelMembers, theme)}
                                     >
-                                        <Checkbox checked={panelMembers.indexOf(member.name) > -1} />
-                                        <ListItemText primary={member.name} />
+                                        <Checkbox checked={panelMembers.indexOf(member.id) > -1} />
+                                        <ListItemText primary={member.id} />
                                     </MenuItem>
                                 ))}
                             </Select>
