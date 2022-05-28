@@ -199,7 +199,7 @@ const EditPanel = (props) => {
                                 {panelMembersList.map((member) => (
                                     <MenuItem
                                         key={member.id}
-                                        value={member.name}
+                                        value={member.id}
                                         style={getStyles(member.id, panelMembers, theme)}
                                     >
                                         <Checkbox checked={panelMembers.indexOf(member.name) > -1} />
