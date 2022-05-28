@@ -105,6 +105,7 @@ export default function RegisterStudentGroup() {
     <div>
         <Container maxWidth={"90%"}>
             <br />
+        <Paper elevation={3} style={{padding:20, background:'rgba(255, 255, 255, 0.50)'}}>
             <Typography variant='h6'>
                 <center><b>CREATE STUDENT GROUP</b></center>
             </Typography><br/>
@@ -224,6 +225,7 @@ export default function RegisterStudentGroup() {
                         </Paper>
                     </Grid>
                 </Grid>
+            </Paper>
             </Paper>
         </Container>
     </div>
