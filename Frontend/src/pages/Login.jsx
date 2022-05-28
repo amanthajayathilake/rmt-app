@@ -47,9 +47,9 @@ const Login = () => {
                 direction="row"
             >
                 <Grid item xs={0} md={4}></Grid>
-                <Grid item sx={{ boxShadow: 1 }} style={{background:'rgba(255, 255, 255, 0.70)', padding:20}} px={3} py={3} xs={12} md={4}>
+                <Grid item sx={{ boxShadow: 1 }} style={{background:'rgba(255, 255, 255, 1)', padding:20}} px={3} py={3} xs={12} md={4}>
                     <center>
-                        <Typography variant='h5'><b>LOGIN</b></Typography>
+                        <Typography variant='h4'><b>LOGIN</b></Typography>
                     </center>
                     <TextField
                         autoFocus

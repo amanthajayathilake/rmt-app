@@ -10,6 +10,7 @@ import { handleToast } from '../../helper/helper';
 
 const EditUser = (props) =>{
     const [user, setUser] = useState(props.user);
+    
 
     const handleEditUser = () => {
         props.setEditOpen(false)
