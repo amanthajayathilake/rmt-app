@@ -45,7 +45,7 @@ const ListTemplates = () => {
     const handleDeleteTemplate = (id) => {
         deleteTemplate(id)
             .then((res) => {
-                if(res.data.isSuccessful) {
+                if (res.data.isSuccessful) {
                     handleFetchTemplates();
                     handleToast('Template deleted!');
                 }
@@ -69,72 +69,74 @@ const ListTemplates = () => {
     }
 
     return (
+
         <>
-            <center>
-                <Typography variant='h5'><b>TEMPLATES</b></Typography>
-            </center>
-            <br/>
-            <TableContainer component={Paper} >
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell><b>TEMPLATE</b></TableCell>
-                            <TableCell align="right"><b>DESCRIPTION</b></TableCell>
-                            {role && role === ADMIN &&
-                                <>
-                                    <TableCell align="right"><b>UPLOAD FOLDER</b></TableCell>
-                                    <TableCell align="right"><b>VISIBILITY</b></TableCell>
-                                </>
-                            }
-                            <TableCell align="right"><b>OPTIONS</b></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {templates && templates.map((temp, index) => (
-                            <TableRow
-                                key={index}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {temp.name}
-                                </TableCell>
-                                <TableCell align="right">{temp.description}</TableCell>
-                                {role && role === ADMIN ?
+            <Paper elevation={3} style={{ padding: 20, backgroundColor: 'rgba(255,255,255, 0.70)' }}>
+                <Typography variant='h6'>
+                    <center><b>TEMPLATES</b></center>
+                </Typography>
+                <br />
+                <TableContainer component={Paper} >
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell><b>TEMPLATE</b></TableCell>
+                                <TableCell align="right"><b>DESCRIPTION</b></TableCell>
+                                {role && role === ADMIN &&
                                     <>
-                                        <TableCell align="right">{temp.folder}</TableCell>
-                                        <TableCell align="right">{temp.published ? 'Published' : 'Hidden'}</TableCell>
+                                        <TableCell align="right"><b>UPLOAD FOLDER</b></TableCell>
+                                        <TableCell align="right"><b>VISIBILITY</b></TableCell>
+                                    </>
+                                }
+                                <TableCell align="right"><b>OPTIONS</b></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {templates && templates.map((temp, index) => (
+                                <TableRow
+                                    key={index}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {temp.name}
+                                    </TableCell>
+                                    <TableCell align="right">{temp.description}</TableCell>
+                                    {role && role === ADMIN ?
+                                        <>
+                                            <TableCell align="right">{temp.folder}</TableCell>
+                                            <TableCell align="right">{temp.published ? 'Published' : 'Hidden'}</TableCell>
+                                            <TableCell align="right">
+                                                <Button onClick={() => setEditingTemplate(temp)}>Edit</Button>
+                                                <Button onClick={() => setDeleteOpen(true)}>Delete</Button>
+                                                <Button onClick={() => handleDownloadTemplate(temp)}>Download</Button>
+                                            </TableCell>
+                                        </> :
                                         <TableCell align="right">
-                                            <Button onClick={() => setEditingTemplate(temp)}>Edit</Button>
-                                            <Button onClick={() => setDeleteOpen(true)}>Delete</Button>
                                             <Button onClick={() => handleDownloadTemplate(temp)}>Download</Button>
                                         </TableCell>
-                                    </> :
-                                    <TableCell align="right">
-                                        <Button onClick={() => handleDownloadTemplate(temp)}>Download</Button>
-                                    </TableCell>
-                                }
-                                {deleteOpen &&
-                                    <AlertDialog
-                                        onConfirm={() => handleDeleteTemplate(temp._id)}
-                                        onClose={() => setDeleteOpen(false)}
-                                        title={'Confirm Delete'}
-                                        body={'Are you sure, you want to delete this template?'}
-                                    />
-                                }
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                    }
+                                    {deleteOpen &&
+                                        <AlertDialog
+                                            onConfirm={() => handleDeleteTemplate(temp._id)}
+                                            onClose={() => setDeleteOpen(false)}
+                                            title={'Confirm Delete'}
+                                            body={'Are you sure, you want to delete this template?'}
+                                        />
+                                    }
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-            {editOpen && template &&
-                <EditTemplate
-                    template={template}
-                    setEditOpen={setEditOpen}
-                    handleFetchTemplates={handleFetchTemplates}
-                />
-            }
-
+                {editOpen && template &&
+                    <EditTemplate
+                        template={template}
+                        setEditOpen={setEditOpen}
+                        handleFetchTemplates={handleFetchTemplates}
+                    />
+                }
+            </Paper>
         </>
     )
 

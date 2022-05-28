@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React, { useState } from "react";
 import { createSubmission } from '../../api/submissionsApi';
+import { handleToast } from '../../helper/helper';
 
 export default function Uploader(props) {
     const [title, setTitle] = useState(props.title);
@@ -15,18 +16,19 @@ export default function Uploader(props) {
     const {type, folder} = props;
     const fileSelected = event => {
         const file = event.target.files[0]
-        file.originalname = 'haloo'
             setFile(file)
         }
 
     const handleUpload = () => {
+        handleToast('Uploading...', 'info')
         const formData = new FormData();
         formData.append("file", file);
         createSubmission(`folder=${folder}&type=${type}`, formData)
             .then(res => {
                 console.log(res)
+                handleToast('Uploaded!', 'success')
             })
-            .catch(err => console.log(err))
+            .catch(err => handleToast())
     }
 
   return (

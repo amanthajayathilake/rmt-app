@@ -8,6 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Grid } from "@mui/material";
 import { registerUser } from '../../api/usersApi';
@@ -118,8 +119,12 @@ const RegisterUser = () => {
                 direction="row"
             >
                 <Grid item xs={0} md={3}></Grid>
-                <Grid item sx={{ boxShadow: 1 }} px={3} py={3} xs={12} md={6}>
-                    <center><h1>Sign Up</h1></center>
+                <Grid item  sx={{
+    boxShadow: 1,
+    backgroundColor:'rgba(255,255,255, 1)'}}  px={3} py={3} xs={12} md={6}>
+                                        <center>
+                        <Typography variant='h4'><b>SIGN UP</b></Typography>
+                    </center>
                     <TextField
                         error={errors.id}
                         helperText={errors.id && 'Invalid id!'}
@@ -183,7 +188,6 @@ const RegisterUser = () => {
                         direction="row"
                     >
                         <Grid item xs={6}>
-
                             <FormControl>
                                 <FormLabel id="demo-radio-buttons-group-label">Choose your Role</FormLabel>
                                 <FormLabel>(For demo purpose only)</FormLabel>

@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Table from '@mui/material/Table';
+import Box from '@mui/material/Box';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -167,12 +168,13 @@ export default function AllocatedStudentGroups() {
   return (
     <div>
       <br />
-      <Container maxWidth={"90%"}>
-        <center>
-          <Typography variant='h6'>
-            <b>ALLOCATED STUDENT GROUPS</b>
-          </Typography>
-        </center><br/>
+      <Box px={2}>
+      <Paper elevation={3} style={{padding:20, backgroundColor:'rgba(255,255,255, 0.70)'}}>
+                <Typography variant='h6'>
+                  <center><b>ALLOCATED STUDENT GROUPS</b></center>
+                </Typography><br/>
+
+
         <Paper elevation={3} style={{padding:20}}>
           {
             groupData.map((row) =>(
@@ -331,7 +333,9 @@ export default function AllocatedStudentGroups() {
             ))
           }
         </Paper>
-      </Container>
+
+      </Paper>
+      </Box>
     </div>
   )
 }
