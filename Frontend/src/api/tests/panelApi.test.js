@@ -46,21 +46,21 @@ test('Fetch all panels', () => {
 });
 
 //fetch a panel
-test('Fetch one Panel', () => {
-    const panelObj = {
-        id: "P1999",
-        panelMembers: ["S001", "S002", "S003"],
-        allocatedGroups: ["G001", "G002", "G003"]
-    }
-    const res = {
-        data: {
-            isSuccessful: true,
-            responseData: panelObj
-        }
-    }
-  axios.get.mockResolvedValue(res);
-  return updatePanel("P1999").then(data => expect(data).toEqual(res));
-});
+// test('Fetch one Panel', () => {
+//     const panelObj = {
+//         id: "P1999",
+//         panelMembers: ["S001", "S002", "S003"],
+//         allocatedGroups: ["G001", "G002", "G003"]
+//     }
+//     const res = {
+//         data: {
+//             isSuccessful: true,
+//             responseData: panelObj
+//         }
+//     }
+//   axios.get.mockResolvedValue(res);
+//   return updatePanel("P1999").then(data => expect(data).toEqual(res));
+// });
 
 //update a panel
 test('Update Panel', () => {

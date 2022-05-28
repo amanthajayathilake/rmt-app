@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://rmt-tool.herokuapp.com/';
-axios.defaults.headers.common['authentication'] = localStorage.getItem('authentication');
+//axios.defaults.headers.common['authentication'] = localStorage.getItem('authentication');
 
 axios.interceptors.response.use(response => {
     return response;
