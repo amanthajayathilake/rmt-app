@@ -16,7 +16,7 @@ const style = {
   position: "fixed",
   left: "0",
   bottom: "0",
-  height: "20px",
+  height: "55px",
   width: "100%",
   color: "white",
   fontSize: "14px"
