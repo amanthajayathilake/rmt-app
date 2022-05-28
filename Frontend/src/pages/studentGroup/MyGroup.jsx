@@ -483,7 +483,7 @@ const setAddTopic = (payload) => {
                                     <Divider /><br/>
                                         <Typography align='center'><b>Topic Evaluation Panel ID: </b> {group.topicEvaluationPanelId}</Typography>
                                         <Typography align='center'><b>Presentation Evaluation Panel ID: </b> {group.presentationEvaluationPanelId}</Typography>
-                                   
+                                        <Typography align='center'><b>Panel Evaluate Feedback: </b> {group.panelEvaluateFeedbacks}</Typography>                                   
                                 </Paper>
                             </Grid> <br/>
                                 <center><h4>EVALUATION DETAILS</h4></center>
