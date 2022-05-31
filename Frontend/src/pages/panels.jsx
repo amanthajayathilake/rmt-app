@@ -39,7 +39,6 @@ const PanelManagement = () => {
   const handleGetPanels = () => {
     fetchAllPanels().then(res => {
       res.data.isSuccessful ? setPanels(res.data.responseData) : toast.error('Error Retrieving');
-      // console.log(res.data)
     }).catch(() => {
       toast.error('Error!', {
         position: "top-right",
