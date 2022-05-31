@@ -18,7 +18,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Tooltip from '@mui/material/Tooltip';
 import EditChatGroup from '../manage-chat/EditChatGroup.jsx';
-
+import AlertDialog from "../../components/alerts/AlertDialog";
 
 const MyChat = (props) => {
     const loggedUserId = getAuth().id;
@@ -29,6 +29,7 @@ const MyChat = (props) => {
     const [value, setValue] = React.useState('1');
     const [addOpen, setAddOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     useEffect(() =>{
         function getUser() {
@@ -69,6 +70,7 @@ const MyChat = (props) => {
     }
 
     const handleDeleteChatGroup = (id) => {
+        setDeleteOpen(false);
         deleteChatGroup(id)
             .then((res) => {
                 res.data.isSuccessful ?
@@ -134,6 +136,11 @@ const MyChat = (props) => {
 
     const RefreshPage = () => {
         window.location.reload();
+    }
+
+    const setDeletingChat = (payload) => {
+        setChat(payload);
+        setDeleteOpen(true);
     }
 
   return (
@@ -215,7 +222,7 @@ const MyChat = (props) => {
                             <TabPanel value="3">
                                 <h2><b>Group Settings</b></h2><hr/><br/>
                                 <Button onClick={() => setEditingChat(chat)} variant="outlined">Edit Chat</Button>
-                                <Button onClick={() => handleDeleteChatGroup(chat.id)} variant="outlined" style={{marginLeft:"20px"}}>Delete Chat</Button>
+                                <Button onClick={() => setDeletingChat(chat)} variant="outlined" style={{marginLeft:"20px"}}>Delete Chat</Button>
                             </TabPanel>
                         </TabContext>
                     </div>
@@ -249,6 +256,14 @@ const MyChat = (props) => {
                     usersIds={chat.userIds}
                     setEditOpen={setEditOpen}
                     handleGetChats={handleGetChats}
+                />
+            }
+            {deleteOpen &&
+                <AlertDialog 
+                    title={'Confirm Delete'}
+                    body={'Please confirm to delete the chat.'}
+                    onClose={() => setDeleteOpen(false)}
+                    onConfirm={() => handleDeleteChatGroup(chat.id)}
                 />
             }
     </div>

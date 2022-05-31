@@ -21,6 +21,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AlertDialog from "../components/alerts/AlertDialog";
 
 const PanelManagement = () => {
   const [panels, setPanels] = useState([]);
@@ -31,6 +32,7 @@ const PanelManagement = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchPanel, setSearchPanel] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   useEffect(() => {
     handleGetPanels();
@@ -57,6 +59,7 @@ const PanelManagement = () => {
   }
 
   const handleDeletePanel = (id) => {
+    setDeleteOpen(false);
     deletePanel(id)
         .then((res) => {
             handleGetPanels();
@@ -111,6 +114,11 @@ const PanelManagement = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const setDeletingPanel = (payload) => {
+    setPanel(payload);
+    setDeleteOpen(true);
+  }
 
   return (
     <>
@@ -175,7 +183,7 @@ const PanelManagement = () => {
                         <DeleteIcon />
                     </IconButton> */}
                     <Button onClick={() => setEditingPanel(panel)}>Edit</Button>
-                    <Button onClick={() => handleDeletePanel(panel.id)}>Delete</Button>
+                    <Button onClick={() => setDeletingPanel(panel)}>Delete</Button>
                   </Stack>
                 </TableCell>
               </TableRow>
@@ -210,6 +218,14 @@ const PanelManagement = () => {
           handleGetPanels={handleGetPanels}
         />
       }
+      {deleteOpen &&
+          <AlertDialog 
+            title={'Confirm Delete'}
+            body={'Please confirm to delete the panel.'}
+            onClose={() => setDeleteOpen(false)}
+            onConfirm={() => handleDeletePanel(panel.id)}
+          />
+        }
     </>
   )
 }
