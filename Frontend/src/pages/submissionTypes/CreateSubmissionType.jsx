@@ -1,17 +1,22 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import { createSubmissionType, fetchSubmissionTypes } from '../../api/submissionTypesApi';
 import Switch from '@mui/material/Switch';
+import { handleToast } from '../../helper/helper';
 
 const CreateSubmissionType = () => {
     const [submissionType, setSubmissionType] = useState({});
     const [checked, setChecked] = useState(true)
 
     const handleCreate = () => {
+        handleToast('Submission type creating!', 'info')
         createSubmissionType(submissionType)
             .then(res => {
                 fetchSubmissionTypes();
+                window.location.reload(true)
             });
     }
 
@@ -42,7 +47,10 @@ const CreateSubmissionType = () => {
 
     return (
         <>
-        <h1>Create new Submission</h1>
+                    <Paper elevation={3} style={{padding:20, backgroundColor:'rgba(255,255,255, 1)'}}>
+                <Typography variant='h6'>
+                  <center><b>CREATE SUBMISSION TYPE</b></center>
+                </Typography><br/>
             <TextField
                 autoFocus
                 margin="dense"
@@ -75,7 +83,7 @@ const CreateSubmissionType = () => {
             <span>Publish</span>
             <Switch onChange={handleChange} value={checked} size="small" name="published" />
             <Button onClick={handleCreate}> Create</Button>
-            
+            </Paper>
         </>
     );
 }

@@ -9,18 +9,17 @@ const SubmissionTypes = () => {
     return (
         <>
             <Box>
+                <br/>
                 <Grid container
-                    spacing={5}
                     direction="row"
                 >
                     <Grid item xs={12} md={8} >
-                        <Box px={2} sx={{ boxShadow: 1 }} >
+                        <Box px={2} >
                             <ListSubmissionTypes />
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Box px={2} sx={{ boxShadow: 1 }} >
-
+                        <Box px={2}>
                             <CreateSubmissionType />
                         </Box>
                     </Grid>

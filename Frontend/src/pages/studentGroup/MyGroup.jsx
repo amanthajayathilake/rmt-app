@@ -156,7 +156,7 @@ const setAddTopic = (payload) => {
     <div>
         <br/>
         <Container maxWidth="90%">
-            <Paper elevation= {2} style={{padding:10}}>
+            <Paper elevation= {2} style={{padding:10, background:'rgba(255, 255, 255, 0.70)'}}>
                 <center>
                 <Grid container rowSpacing={1}>
                     <Grid item xs={12}>
@@ -184,7 +184,7 @@ const setAddTopic = (payload) => {
                 </Grid>
                 </center>
             </Paper><br/>
-            <Paper elevation ={2} style={{padding:1}}>
+            <Paper elevation ={2} style={{padding:20, background:'rgba(255, 255, 255, 0.70)'}}>
                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header" >
                         <Typography sx={{ width: '33%', flexShrink: 0 }}>
@@ -437,25 +437,9 @@ const setAddTopic = (payload) => {
                                                         <TableCell >{row.interestArea}</TableCell>
                                                         
                                                         <TableCell>
-                                                            {
-                                                                group.status === "Supervisor Accepted" ?
-                                                                <>
-                                                                    <Button variant='contained'onClick={()=> reqSupervisor(group.id, row.id, "co-supervisor")}>
-                                                                        Request
-                                                                    </Button>
-                                                                </>:
-                                                                group.status === "Co-Supervisor Rejected" ?
-                                                                <>
-                                                                    <Button variant='contained'onClick={()=> reqSupervisor(group.id, row.id, "co-supervisor")}>
-                                                                        Request
-                                                                    </Button>
-                                                                </>:
-                                                                <>
-                                                                    <Button variant='contained' disabled>
-                                                                        Request
-                                                                    </Button>
-                                                                </>
-                                                            }
+                                                            <Button variant='contained'onClick={()=> reqSupervisor(group.id, row.id, "co-supervisor")}>
+                                                                Request
+                                                            </Button>
                                                         </TableCell>
                                                     </TableRow>
                                                     
@@ -499,7 +483,7 @@ const setAddTopic = (payload) => {
                                     <Divider /><br/>
                                         <Typography align='center'><b>Topic Evaluation Panel ID: </b> {group.topicEvaluationPanelId}</Typography>
                                         <Typography align='center'><b>Presentation Evaluation Panel ID: </b> {group.presentationEvaluationPanelId}</Typography>
-                                   
+                                        <Typography align='center'><b>Panel Evaluate Feedback: </b> {group.panelEvaluateFeedbacks}</Typography>                                   
                                 </Paper>
                             </Grid> <br/>
                                 <center><h4>EVALUATION DETAILS</h4></center>

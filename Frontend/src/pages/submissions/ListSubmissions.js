@@ -4,9 +4,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import Box from '@mui/material/Box';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -29,9 +31,11 @@ const formatBytes = (bytes, decimals = 2) => {
 }
 
 const handleDownloadSubmission = (key) => {
+    handleToast('Downloading...','info');
     getSubmission(key)
         .then((res) => {
-            fileDownload(res.data, `${key.split('/')[0]}`)
+            fileDownload(res.data, `${key.split('/')[0]}.pdf`)
+            handleToast('Downloaded','success');
         })
 }
 const ListSubmissions = () => {
@@ -58,7 +62,12 @@ const ListSubmissions = () => {
 
   return (
     <>
-    <h1>Students Submissions - {folder}</h1>
+    <br/>
+    <Box px={2} >
+    <Paper elevation={3} style={{padding:20, backgroundColor:'rgba(255,255,255, 0.70)'}}>
+                <Typography variant='h6'>
+                  <center><b>Students Submissions - {folder}</b></center>
+                </Typography><br/>
       <FormControl >
         <InputLabel id="role-label">Submission Type</InputLabel>
         <Select
@@ -72,6 +81,8 @@ const ListSubmissions = () => {
           <MenuItem value={'Topics'}>Topics</MenuItem>
         </Select>
       </FormControl>
+      <br />
+      <br />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -102,7 +113,8 @@ const ListSubmissions = () => {
         </Table>
       </TableContainer>
 
-
+      </Paper>
+      </Box>
     </>
   )
 
